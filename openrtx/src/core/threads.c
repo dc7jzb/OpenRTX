@@ -40,7 +40,7 @@
 #include <interfaces/gps.h>
 #include <gps.h>
 #endif
-
+#include <voicePrompts.h>
 /* Mutex for concurrent access to state variable */
 pthread_mutex_t state_mutex;
 
@@ -90,6 +90,8 @@ void *ui_task(void *arg)
         ui_updateFSM(event, &sync_rtx);
         // Update state local copy
         ui_saveState();
+        // continue playing voice prompts in progress if any.
+        vpTick();
         // Unlock mutex
         pthread_mutex_unlock(&state_mutex);
 
